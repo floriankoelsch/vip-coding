@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Datensätze – {{ company.name }}</h1>
+
+  <div class="grid-2">
+    <section>
+      <h2>Neuer Datensatz</h2>
+      <form method="post" action="{{ url_for('create_record') }}" class="card">
+        <label>Name*<br><input name="name" required></label>
+        <label>Beschreibung<br><textarea name="description" rows="3"></textarea></label>
+        <label>Gruppe (Freitext)<br><input name="group" placeholder="z.B. Marketing, Sales, IT"></label>
+        <button type="submit">Anlegen</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Relation anlegen</h2>
+      <form method="post" action="{{ url_for('create_relation') }}" class="card">
+        <label>Datensatz A</label>
+        <select name="a_id" required>
+          {% for r in records %}
+            <option value="{{ r.id }}">{{ r.id }} — {{ r.name }}</option>
+          {% endfor %}
+        </select>
+        <label>Datensatz B</label>
+        <select name="b_id" required>
+          {% for r in records %}
+            <option value="{{ r.id }}">{{ r.id }} — {{ r.name }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit">Verbinden</button>
+      </form>
+    </section>
+  </div>
+
+  <h2>Datensätze</h2>
+  <table class="table">
+    <thead><tr><th>ID</th><th>Name</th><th>Gruppe</th><th>Beschreibung</th><th>Erstellt</th></tr></thead>
+    <tbody>
+      {% for r in records %}
+        <tr>
+          <td>{{ r.id }}</td>
+          <td>{{ r.name }}</td>
+          <td>{{ r.group or "—" }}</td>
+          <td>{{ r.description[:120] }}{% if r.description|length > 120 %}…{% endif %}</td>
+          <td>{{ r.created_at.strftime("%Y-%m-%d %H:%M") }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Relationen</h2>
+  <table class="table">
+    <thead><tr><th>ID</th><th>A</th><th>B</th><th>Aktion</th></tr></thead>
+    <tbody>
+      {% for rel in relations %}
+        <tr>
+          <td>{{ rel.id }}</td>
+          <td>{{ rel.a_id }}</td>
+          <td>{{ rel.b_id }}</td>
+          <td>
+            <form method="post" action="{{ url_for('delete_relation') }}">
+              <input type="hidden" name="rel_id" value="{{ rel.id }}">
+              <button type="submit" class="danger">Löschen</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p style="margin-top:2rem">
+    <a class="btn" href="{{ url_for('live') }}">🌌 Live-Ansicht öffnen</a>
+  </p>
+{% endblock %}

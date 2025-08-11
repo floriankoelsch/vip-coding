@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Live-Ansicht – {{ company.name }}</h1>
+  <div class="muted">Tipp: Mausrad = Zoom, Linksklick + Ziehen = Orbit, Rechtsklick = Schwenken, Touch-Gesten auf Tablets.</div>
+  <div id="universe" class="universe"></div>
+  <div id="live-error" class="muted" style="margin-top:8px;display:none;"></div>
+
+  <!-- <<< WICHTIG: Backend-Config für das Frontend >>> -->
+  <script>
+    window.UNIVERSE_CFG = {
+      companyId: {{ company.id }},
+      /* Für Super-Admin ist die company_id nötig; für Firmen-User wird sie ignoriert – beides ist ok */
+      apiGraph: "{{ url_for('api_graph') }}?company_id={{ company.id }}"
+    };
+  </script>
+
+  <!-- Import-Map: 'three' zeigt auf unsere lokale three.module.js -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "{{ url_for('static', filename='js/vendor/three.module.js') }}"
+    }
+  }
+  </script>
+
+  <!-- Unser Live-Code als ES-Modul -->
+  <script type="module" src="{{ url_for('static', filename='js/live.js') }}"></script>
+{% endblock %}

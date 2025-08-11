@@ -1,0 +1,27 @@
+* { box-sizing: border-box; }
+body { margin:0; font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif; background:#0b0f1a; color:#e8ecf1; }
+a { color:#8bd3ff; text-decoration:none; }
+a.btn { display:inline-block; background:#1d283a; padding:.5rem .8rem; border-radius:6px; border:1px solid #2b3952; }
+a.btn:hover { background:#24324a; }
+button { background:#8bd3ff; color:#0b0f1a; border:none; padding:.5rem .8rem; border-radius:6px; cursor:pointer; }
+button.danger { background:#ff6b6b; color:#1a0b0b; }
+input, textarea, select { width:100%; padding:.45rem .5rem; border-radius:6px; border:1px solid #2b3952; background:#101726; color:#e8ecf1; }
+label { display:block; margin-bottom:.7rem; }
+.row { display:flex; gap:.6rem; }
+.container { max-width:1100px; margin: 0 auto; padding:1rem; }
+.topbar { display:flex; justify-content:space-between; align-items:center; padding:.8rem 1rem; background:#0f1627; border-bottom:1px solid #1f2a44; position:sticky; top:0; z-index:10; }
+.brand { font-weight:700; letter-spacing:.5px; }
+.menu a { margin-left:1rem; }
+.footer { text-align:center; padding:1rem; color:#8aa1c1; }
+.card { background:#0f1627; border:1px solid #1f2a44; border-radius:10px; padding:1rem; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.table { width:100%; border-collapse:collapse; background:#0f1627; border:1px solid #1f2a44; border-radius:10px; overflow:hidden; }
+.table th, .table td { border-bottom:1px solid #1f2a44; padding:.6rem .5rem; text-align:left; }
+.flash-area { margin:1rem 0; }
+.flash { padding:.6rem .7rem; border-radius:6px; margin-bottom:.5rem; }
+.flash.success { background:#12311e; color:#a6f5c7; border:1px solid #1e5b35; }
+.flash.error { background:#30181b; color:#ffbaba; border:1px solid #5b1e25; }
+.flash.info { background:#172436; color:#9ed0ff; border:1px solid #27436b; }
+.muted { color:#9fb1cf; font-size:.9rem; }
+.universe { width:100%; height: 75vh; border-radius:12px; border:1px solid #1f2a44; overflow:hidden; margin-top:1rem; background:#000309; }
+@media (max-width: 900px) { .grid-2 { grid-template-columns:1fr; } }

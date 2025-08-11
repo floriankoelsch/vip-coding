@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Admin: Firmen & Benutzer</h1>
+
+  <div class="grid-2">
+    <section>
+      <h2>Firma anlegen</h2>
+      <form method="post" action="{{ url_for('create_company') }}" class="card">
+        <label>Firmenname*<br><input name="name" required></label>
+        <label>Straße<br><input name="street"></label>
+        <div class="row">
+          <label>Hausnummer<br><input name="house_number"></label>
+          <label>PLZ<br><input name="postal_code"></label>
+        </div>
+        <label>Ort<br><input name="city"></label>
+        <button type="submit">Anlegen</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>User anlegen</h2>
+      <form method="post" action="{{ url_for('create_user') }}" class="card">
+        <label>E-Mail*<br><input type="email" name="email" required></label>
+        <label>Passwort*<br><input type="text" name="password" required></label>
+        <label>Zugehörige Firma (leer lassen für Super‑Admin)</label>
+        <select name="company_id">
+          <option value="">– Firma wählen –</option>
+          {% for c in companies %}
+            <option value="{{ c.id }}">{{ c.name }} (ID {{ c.id }})</option>
+          {% endfor %}
+        </select>
+        <label class="checkbox">
+          <input type="checkbox" name="is_superadmin" value="1"> als Super‑Admin anlegen
+        </label>
+        <button type="submit">Anlegen</button>
+      </form>
+    </section>
+  </div>
+
+  <h2>Firmenübersicht</h2>
+  <table class="table">
+    <thead><tr><th>ID</th><th>Name</th><th>Adresse</th><th>Erstellt</th><th>Live</th></tr></thead>
+    <tbody>
+      {% for c in companies %}
+        <tr>
+          <td>{{ c.id }}</td>
+          <td>{{ c.name }}</td>
+          <td>{{ c.street }} {{ c.house_number }}, {{ c.postal_code }} {{ c.city }}</td>
+          <td>{{ c.created_at.strftime("%Y-%m-%d %H:%M") }}</td>
+          <td><a class="btn" href="{{ url_for('live') }}?company_id={{ c.id }}">Live öffnen</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Userübersicht</h2>
+  <table class="table">
+    <thead><tr><th>ID</th><th>E-Mail</th><th>Super‑Admin</th><th>Firma</th></tr></thead>
+    <tbody>
+      {% for u in users %}
+        <tr>
+          <td>{{ u.id }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ "Ja" if u.is_superadmin else "Nein" }}</td>
+          <td>{{ u.company.name if u.company else "—" }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

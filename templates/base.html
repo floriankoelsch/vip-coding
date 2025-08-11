@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>{{ app_title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">{{ app_title }}</div>
+    <nav class="menu">
+      {% if session.get('user_id') %}
+        <a href="{{ url_for('index') }}">Start</a>
+        {% if session.get('is_superadmin') %}
+          <a href="{{ url_for('admin') }}">Admin</a>
+        {% else %}
+          <a href="{{ url_for('records') }}">Datensätze</a>
+          <a href="{{ url_for('live') }}">Live-Ansicht</a>
+        {% endif %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-area">
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <small>&copy; {{ 2025 }} VIP Coding Universe (MVP)</small>
+  </footer>
+</body>
+</html>
