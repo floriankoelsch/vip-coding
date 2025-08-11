@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Login</h1>
+  <form method="post" class="card">
+    <label>E-Mail<br><input type="email" name="email" required placeholder="admin@vip.local" /></label>
+    <label>Passwort<br><input type="password" name="password" required /></label>
+    <button type="submit">Anmelden</button>
+  </form>
+  <p class="muted">Erst-Login (Super‑Admin): <code>admin@vip.local</code> und das im Code gesetzte Startpasswort.</p>
+{% endblock %}
